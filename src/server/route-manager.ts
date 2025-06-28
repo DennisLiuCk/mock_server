@@ -19,7 +19,7 @@ export class RouteManager {
    * @param apiEndpoint API endpoint configuration
    */
   registerRoute(app: Express, apiEndpoint: ApiEndpoint): void {
-    const { path, method, response } = apiEndpoint;
+    const { path, method } = apiEndpoint;
 
     // Convert Express path format (e.g., /users/:id)
     const expressPath = this.convertPathFormat(path);
@@ -28,7 +28,7 @@ export class RouteManager {
     const expressMethod = this.getExpressMethod(method);
 
     // Register the route
-    app[expressMethod](expressPath, async (req: Request, res: Response) => {
+    (app as any)[expressMethod](expressPath, async (req: Request, res: Response) => {
       try {
         // Process the response
         await this.handleRequest(req, res, apiEndpoint);

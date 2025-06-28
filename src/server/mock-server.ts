@@ -141,7 +141,7 @@ export class MockServer {
     this.app.use(express.urlencoded({ extended: true }));
 
     // Request logging middleware
-    this.app.use((req: Request, res: Response, next: NextFunction) => {
+    this.app.use((req: Request, _res: Response, next: NextFunction) => {
       console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
       next();
     });
@@ -167,7 +167,7 @@ export class MockServer {
     });
 
     // Error handler
-    this.app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+    this.app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
       console.error('Server error:', error);
       res.status(500).json({
         error: 'Internal Server Error',

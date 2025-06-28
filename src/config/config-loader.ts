@@ -96,7 +96,7 @@ export class ConfigLoader {
       } else if (fileExtension === '.json') {
         return JSON.parse(content);
       }
-    } catch (error) {
+    } catch (error: unknown) {
       if (error instanceof yaml.YAMLException) {
         throw new Error(`Invalid YAML format: ${error.message}`);
       } else if (error instanceof SyntaxError) {
