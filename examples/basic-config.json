@@ -1,0 +1,56 @@
+{
+  "server": {
+    "port": 4000,
+    "host": "0.0.0.0",
+    "cors": false
+  },
+  "apis": [
+    {
+      "path": "/api/posts",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": 1,
+            "title": "First Post",
+            "content": "This is the first post"
+          },
+          {
+            "id": 2,
+            "title": "Second Post",
+            "content": "This is the second post"
+          }
+        ]
+      }
+    },
+    {
+      "path": "/api/posts/:id",
+      "method": "GET",
+      "response": {
+        "status": 200,
+        "body": {
+          "id": "{{params.id}}",
+          "title": "Post {{params.id}}",
+          "content": "Content for post {{params.id}}"
+        }
+      }
+    },
+    {
+      "path": "/api/posts",
+      "method": "POST",
+      "response": {
+        "status": 201,
+        "body": {
+          "id": "{{random.number}}",
+          "title": "{{body.title}}",
+          "content": "{{body.content}}",
+          "created_at": "{{now}}"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+# Basic Mock API Server Configuration Example
+
+server:
+  port: 3000
+  host: localhost
+  cors: true
+
+apis:
+  # Simple GET endpoint
+  - path: /api/users
+    method: GET
+    response:
+      status: 200
+      headers:
+        Content-Type: application/json
+      body:
+        - id: 1
+          name: "John Doe"
+          email: "john@example.com"
+        - id: 2
+          name: "Jane Smith"
+          email: "jane@example.com"
+
+  # GET endpoint with path parameter
+  - path: /api/users/:id
+    method: GET
+    response:
+      status: 200
+      body:
+        id: "{{params.id}}"
+        name: "User {{params.id}}"
+        email: "user{{params.id}}@example.com"
+
+  # POST endpoint
+  - path: /api/users
+    method: POST
+    response:
+      status: 201
+      body:
+        id: "{{random.number}}"
+        name: "{{body.name}}"
+        email: "{{body.email}}"
+        created_at: "{{now}}"
+
+  # Error response example
+  - path: /api/error
+    method: GET
+    response:
+      status: 500
+      body:
+        error: "Internal Server Error"
+        message: "Something went wrong"
