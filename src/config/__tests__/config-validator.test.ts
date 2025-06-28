@@ -1,5 +1,5 @@
 import { ConfigValidator } from '../config-validator';
-import { MockConfig, ValidationError } from '../../types/config';
+import { MockConfig, ValidationError as _ValidationError, HttpMethod } from '../../types/config';
 
 describe('ConfigValidator', () => {
   let validator: ConfigValidator;
@@ -36,11 +36,11 @@ describe('ConfigValidator', () => {
 
     it('should reject configuration without server', () => {
       // 🔴 RED: This test will fail because ConfigValidator doesn't exist yet
-      const invalidConfig = {
+      const invalidConfig: Partial<MockConfig> = {
         apis: []
-      } as MockConfig;
+      };
 
-      const result = validator.validate(invalidConfig);
+      const result = validator.validate(invalidConfig as MockConfig);
       expect(result.isValid).toBe(false);
       expect(result.errors).toContainEqual({
         field: 'server',
@@ -97,7 +97,7 @@ describe('ConfigValidator', () => {
         apis: [
           {
             path: '/api/test',
-            method: 'INVALID' as any,
+            method: 'INVALID' as HttpMethod,
             response: {
               status: 200,
               body: {}
@@ -174,7 +174,7 @@ describe('ConfigValidator', () => {
 
     it('should validate multiple errors', () => {
       // 🔴 RED: This test will fail because ConfigValidator doesn't exist yet
-      const invalidConfig = {
+      const invalidConfig: Partial<MockConfig> = {
         server: {
           port: -1,
           host: '',
@@ -183,16 +183,16 @@ describe('ConfigValidator', () => {
         apis: [
           {
             path: '',
-            method: 'INVALID',
+            method: 'INVALID' as HttpMethod,
             response: {
               status: 999,
               body: {}
             }
           }
         ]
-      } as MockConfig;
+      };
 
-      const result = validator.validate(invalidConfig);
+      const result = validator.validate(invalidConfig as MockConfig);
       expect(result.isValid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(1);
     });
